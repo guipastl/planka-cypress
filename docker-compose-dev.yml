@@ -10,7 +10,7 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
-      - DATABASE_URL=postgresql://user:password@postgres:5432/planka_db
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/planka
       - SECRET_KEY=notsecretkey
 
       # - TRUST_PROXY=0
@@ -106,12 +106,12 @@ services:
       context: ./server
       dockerfile: ../config/development/Dockerfile.server
     environment:
-      - DATABASE_URL=postgresql://user:password@postgres:5432/planka_db
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/planka
 
-      # - DEFAULT_ADMIN_EMAIL=demo@demo.demo # Do not remove if you want to prevent this user from being edited/deleted
-      # - DEFAULT_ADMIN_PASSWORD=demo
-      # - DEFAULT_ADMIN_NAME=Demo Demo
-      # - DEFAULT_ADMIN_USERNAME=demo
+      - DEFAULT_ADMIN_EMAIL=cypress@example.com
+      - DEFAULT_ADMIN_PASSWORD=E2E_test
+      - DEFAULT_ADMIN_NAME=Cypress Test
+      - DEFAULT_ADMIN_USERNAME=cypress
     working_dir: /app
     command: ["sh", "-c", "npm run db:init"]
     volumes:
@@ -126,14 +126,14 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: planka_db
-      POSTGRES_USER: user
+      POSTGRES_DB: planka
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user -d planka_db"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d planka"]
       interval: 10s
       timeout: 5s
       retries: 5
