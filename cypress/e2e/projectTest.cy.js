@@ -4,7 +4,6 @@ describe('project test', () => {
   beforeEach(() => {
     cy.login()
     cy.api_deleteProjects()
-
   })
 
   it('creates project', () => {

@@ -13,3 +13,9 @@ yarn.lock
 
 # Chart dependencies
 **/charts/*.tgz
+
+# Cypress
+/cypress/downloads
+/cypress/screenshots
+/cypress/videos
+/node_modules

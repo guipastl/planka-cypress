@@ -13,7 +13,7 @@ module.exports = defineConfig({
       })
       return config
     },
-    baseUrl: 'http://localhost:1337',
+    baseUrl: 'http://localhost:3000',
     env: {
       hideCredentials: true,
       requestMode: true,

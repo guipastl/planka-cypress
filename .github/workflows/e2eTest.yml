@@ -60,8 +60,10 @@ jobs:
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
+        with:
+          command: npx cypress run --env api_server=http://localhost:3000
 
-  planka-app-cypress-tests:
+  planka-local-cypress-tests:
     needs: install-dependencies
     runs-on: ubuntu-latest
     env:
@@ -115,3 +117,5 @@ jobs:
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
+        with:
+          command: npx cypress run --env api_server=http://localhost:1337
