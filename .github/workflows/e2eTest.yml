@@ -63,27 +63,21 @@ jobs:
   planka-local-cypress-tests:
     needs: install-dependencies
     runs-on: ubuntu-latest
-    env:
-      POSTGRES_DB: planka
-      POSTGRES_USER: cypress
-      POSTGRES_PASSWORD: E2E_test
+    services:
+      postgres:
+        image: postgres:16-alpine
+        volumes:
+          - db-data:/var/lib/postgresql/data
+        env:
+          POSTGRES_DB: planka
+          POSTGRES_HOST_AUTH_METHOD: trust
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'npm'
-
-      - name: Setup PostgreSQL
-        uses: ikalnytskyi/action-setup-postgres@v5
-        with:
-          database: ${{ env.POSTGRES_DB }}
-          username: ${{ env.POSTGRES_USER }}
-          password: ${{ env.POSTGRES_PASSWORD }}
-
       - name: Cache Node.js modules
         uses: actions/cache@v3
         with:
