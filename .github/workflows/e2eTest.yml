@@ -16,10 +16,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Install dependencies
-      run: |
-        npm install
-        cd client
-        npm run build
+      run: npm install
 
   planka-docker-cypress-tests:
     needs: install-dependencies
@@ -95,6 +92,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      - name: Install dependencies
+        run: |
+          npm install
+          cd client
+          npm run build
+
       - name: Setup server
         env:
           DEFAULT_ADMIN_EMAIL: cypress@example.com
@@ -102,9 +105,10 @@ jobs:
           DEFAULT_ADMIN_NAME: Cypress Test
           DEFAULT_ADMIN_USERNAME: cypress
         run: |
-          client/tests/setup-symlinks.sh
-          npm run server:db:init
-          npm start
+            client/tests/setup-symlinks.sh
+            sed -i "s|^DATABASE_URL=.*|DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost/${POSTGRES_DB}|" .env
+            npm run db:init
+            npm start --prod &
 
       - name: Wait for development server
         run: |
