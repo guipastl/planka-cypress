@@ -106,7 +106,6 @@ jobs:
           DEFAULT_ADMIN_USERNAME: cypress
         run: |
             client/tests/setup-symlinks.sh
-            sed -i "s|^DATABASE_URL=.*|DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost/${POSTGRES_DB}|" .env
             npm run db:init
             npm start --prod &
 
