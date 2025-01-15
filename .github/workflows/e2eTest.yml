@@ -9,17 +9,16 @@ on:
       - test
 
 jobs:
-  install-dependencies:
+  test-pipelines-trigger:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-
-    - name: Install dependencies
-      run: npm install
+    - name: Trigger
+      run: echo "This job triggers the others"
 
   planka-docker-cypress-tests:
-    needs: install-dependencies
+    needs: test-pipelines-trigger
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -61,7 +60,7 @@ jobs:
           command: npx cypress run --env api_server=http://localhost:3000
 
   planka-local-cypress-tests:
-    needs: install-dependencies
+    needs: test-pipelines-trigger
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -76,6 +75,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -83,7 +83,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'npm'
 
       - name: Cache Node.js modules
@@ -95,29 +95,17 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: |
-          npm install
-          cd client
-          npm run build
+        run: npm ci
 
       - name: Setup server
-        env:
-          DEFAULT_ADMIN_EMAIL: cypress@example.com
-          DEFAULT_ADMIN_PASSWORD: E2E_test
-          DEFAULT_ADMIN_NAME: Cypress Test
-          DEFAULT_ADMIN_USERNAME: cypress
         run: |
-            client/tests/setup-symlinks.sh
             npm run server:db:init
-            npm start --prod &
+            npm start
 
       - name: Wait for development server
         run: |
           sudo apt-get install wait-for-it -y
           wait-for-it -h localhost -p 1337 -t 10
-
-      - name: Checkout
-        uses: actions/checkout@v4
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
