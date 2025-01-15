@@ -75,6 +75,8 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        ports:
+          - 5432:5432
 
     steps:
       - name: Checkout
@@ -99,6 +101,9 @@ jobs:
 
       - name: Setup server
         run: |
+            client/tests/setup-symlinks.sh
+            cd server
+            cp .env.sample .env
             npm run server:db:init
             npm start
 
