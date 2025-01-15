@@ -104,7 +104,7 @@ jobs:
             client/tests/setup-symlinks.sh
             cd server
             cp .env.sample .env
-            npm run server:db:init
+            node db/init.js
             npm start
 
       - name: Wait for development server
