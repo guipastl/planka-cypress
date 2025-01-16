@@ -19,6 +19,9 @@ module.exports = defineConfig({
       requestMode: true,
       snapshotOnly: true
     },
+    hosts: {
+      "localhost": "127.0.0.1"
+    },
     experimentalRunAllSpecs: true
   },
   fixturesFolder: false,
