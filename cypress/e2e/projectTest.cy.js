@@ -1,6 +1,6 @@
 import * as data from '../fixtures/randomData'
 
-describe('project test', { baseUrl: 'http://localhost:3000' }, () => {
+describe('project test', () => {
   beforeEach(() => {
     cy.login()
     cy.api_deleteProjects()

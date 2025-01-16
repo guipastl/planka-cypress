@@ -13,6 +13,7 @@ module.exports = defineConfig({
       })
       return config
     },
+    baseUrl: 'http://localhost:3000',
     env: {
       hideCredentials: true,
       requestMode: true,
@@ -21,7 +22,7 @@ module.exports = defineConfig({
     experimentalRunAllSpecs: true
   },
   fixturesFolder: false,
-  video: false,
+  video: true,
   viewportWidth: 1920,
   viewportHeight: 1080,
 })

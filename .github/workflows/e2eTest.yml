@@ -108,7 +108,8 @@ jobs:
             cd server
             cp .env.sample .env
             npm run db:init
-            npm start --prod & npx wait-on http://localhost:1337
+            cd
+            npm start & npx wait-on http://localhost:1337
 
       - name: Wait for development server
         run: |
@@ -119,3 +120,15 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           command: npx cypress run --env api_server=http://localhost:1337
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          path: cypress/screenshots
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          path: cypress/videos
