@@ -1,4 +1,4 @@
-describe('login test', () => {
+describe('login test', { baseUrl: 'http://localhost:3000' }, () => {
   beforeEach(() => {
     cy.visit('/')
   })

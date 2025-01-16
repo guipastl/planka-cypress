@@ -1,3 +1,3 @@
-describe.skip('User tests', () => {
+describe.skip('User tests', { baseUrl: 'http://localhost:3000' }, () => {
 
 })

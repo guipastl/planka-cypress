@@ -13,14 +13,10 @@ module.exports = defineConfig({
       })
       return config
     },
-    baseUrl: 'http://localhost:3000',
     env: {
       hideCredentials: true,
       requestMode: true,
       snapshotOnly: true
-    },
-    hosts: {
-      "localhost": "127.0.0.1"
     },
     experimentalRunAllSpecs: true
   },
