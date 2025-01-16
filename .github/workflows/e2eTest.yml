@@ -9,7 +9,7 @@ on:
       - test
 
 jobs:
-  test-pipelines-trigger:
+  trigger-job:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -18,7 +18,7 @@ jobs:
       run: echo "This job triggers the others"
 
   planka-docker-cypress-tests:
-    needs: test-pipelines-trigger
+    needs: trigger-job
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -54,13 +54,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install dev dependencies
+        run: npm install --only=dev
+
       - name: Cypress run
-        uses: cypress-io/github-action@v6
-        with:
-          command: npx cypress run --env api_server=http://localhost:3000
+        run: npx cypress run --env api_server=http://localhost:3000
 
   planka-local-cypress-tests:
-    needs: test-pipelines-trigger
+    needs: trigger-job
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -105,7 +106,9 @@ jobs:
             cd server
             cp .env.sample .env
             node db/init.js
-            npm start
+            npm run build --if-present
+            npm start & npx wait-on http://127.0.0.1:3000
+
 
       - name: Wait for development server
         run: |
