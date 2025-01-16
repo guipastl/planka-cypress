@@ -108,7 +108,7 @@ jobs:
             cd server
             cp .env.sample .env
             npm run db:init
-            npm start --prod & npx wait-on http://localhost:1337
+            npm start --prod & npx wait-on http://localhost:3000
 
       - name: Wait for development server
         run: |
