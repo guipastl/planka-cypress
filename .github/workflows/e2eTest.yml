@@ -54,13 +54,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install dev dependencies
-        run: npm install --only=dev
-
       - name: Cypress run
-        run: npx cypress run --env api_server=http://localhost:3000
+        uses: cypress-io/github-action@v6
+        with:
+          command: npx cypress run --env api_server=http://localhost:3000
 
-  planka-local-cypress-tests:
+  planka-app-build-and-cypress-tests:
     needs: trigger-job
     runs-on: ubuntu-latest
     services:
@@ -98,17 +97,18 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci
+          cd client
+          npm run build
 
       - name: Setup server
         run: |
             client/tests/setup-symlinks.sh
             cd server
             cp .env.sample .env
-            node db/init.js
-            npm run build --if-present
-            npm start & npx wait-on http://127.0.0.1:3000
-
+            npm run db:init
+            npm start --prod &
 
       - name: Wait for development server
         run: |
