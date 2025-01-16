@@ -109,7 +109,7 @@ jobs:
             cp .env.sample .env
             npm run db:init
             cd -
-            npm start
+            npm start &
 
       - name: Wait for development server
         run: |
