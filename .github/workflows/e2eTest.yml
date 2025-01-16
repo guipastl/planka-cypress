@@ -108,7 +108,8 @@ jobs:
             cd server
             cp .env.sample .env
             npm run db:init
-            npm start --prod &
+            cd -
+            npm start
 
       - name: Wait for development server
         run: |
