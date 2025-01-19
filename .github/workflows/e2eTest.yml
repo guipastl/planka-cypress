@@ -17,7 +17,7 @@ jobs:
     - name: Trigger
       run: echo "This job triggers the others"
 
-  planka-docker-cypress-tests:
+  planka-docker-test:
     needs: trigger-job
     runs-on: ubuntu-latest
     services:
@@ -57,11 +57,11 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         with:
-          command: npx cypress run --record --key ${{ secrets.CYPRESS_RECORD_KEY }} --env api_server=http://localhost:3000
+          command: npx cypress run --env api_server=http://localhost:3000
 
-  planka-app-build-and-cypress-tests:
+  planka-build-and-test:
     needs: trigger-job
     runs-on: ubuntu-latest
     services:
@@ -121,6 +121,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         with:
-          command: npx cypress run --record --key ${{ secrets.CYPRESS_RECORD_KEY }} --env api_server=http://localhost:1337
+          command: npx cypress run --env api_server=http://localhost:1337
