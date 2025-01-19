@@ -1,59 +1,55 @@
-# Planka
-#### Elegant open source project tracking.
+# Planka Cypress
 
-![David (path)](https://img.shields.io/github/package-json/v/plankanban/planka) ![Docker Pulls](https://img.shields.io/badge/docker_pulls-5M%2B-%23066da5) ![GitHub](https://img.shields.io/github/license/plankanban/planka)
+[![test](https://github.com/guipastl/planka-cypress/actions/workflows/e2eTest.yml/badge.svg)](https://github.com/guipastl/planka-cypress/actions)
+[![planka-cypress](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/simple/v923ax/test&style=plastic&logo=cypress)](https://cloud.cypress.io/projects/v923ax/runs)
 
-![](https://raw.githubusercontent.com/plankanban/planka/master/demo.gif)
+Sample project to experiment with [Cypress](https://cypress.io) to test the Planka application in order to compare tests execution against an application running on Docker container and on local build.
 
-[**Client demo**](https://plankanban.github.io/planka) (without server features).
+## Pre-requirements
 
-## Features
+You need to have a Planka local environment such as [build](https://github.com/plankanban/planka) or Docker up and running.
 
-- Create projects, boards, lists, cards, labels and tasks
-- Add card members, track time, set due dates, add attachments, write comments
-- Markdown support in card description and comments
-- Filter by members and labels
-- Customize project backgrounds
-- Real-time updates
-- Internal notifications
-- Multiple interface languages
-- Single sign-on via OpenID Connect
+You also need to have [Node.js](https://nodejs.org/) and npm installed on your computer.
 
-## How to deploy Planka
+For this project, the following versions of Node.js and npm were used:
 
-There are many ways to install Planka, [check them out](https://docs.planka.cloud/docs/intro).
+```sh
+$ node -v
+v20.13.1
 
-For configuration, please see the [configuration section](https://docs.planka.cloud/docs/category/configuration).
+$ npm -v
+10.8.0
+```
 
-## Mobile app
+### Building and Running Planka on Docker
 
-Here is the [mobile app repository](https://github.com/LouisHDev/planka_app) maintained by the community, where you can build an app for iOS and Android.
+> Check out the setup guide in the Planka [repo](https://github.com/plankanban/planka).
 
-Alternatively, you can download the [Android APK](https://github.com/LouisHDev/planka_app/releases/latest/download/app-release.apk) directly.
+## Installation
 
-If you have an iOS device and would like to test the app, you can join [TestFlight](https://testflight.apple.com/join/Uwn41eY4) (limited to 200 participants).
+Run `npm i` to install the dependencies.
 
-## Contact
+## Tests
 
-- If you want to get a hosted version of Planka, you can contact us via email contact@planka.cloud
-- For any security issues, please do not create a public issue on GitHub, instead please write to security@planka.cloud
+> Before running the tests, in the file `cypress.env.json`, update the value of the `user_password` and `user_name` properties with those of your choice.
+>
+> By default, the tests will run against `http://localhost/`, but if you need to run them in a different URL (e.g.: `http://localhost:3000/`), change the `baseUrl` property in the [`cypress.config.js`](./cypress.config.js) file.
+>
+> In the local build test execution, the server runs in the port `1337`, while the client runs in the `3000`.
 
-We do NOT offer any public support via email, please use GitHub.
+### Headless mode
 
-## Development
+Run `npx cypress run --env api_server=http://localhost:3000` to run all tests in headless mode against application running on Docker container.
 
-See the [development section](https://docs.planka.cloud/docs/Development).
+Run `npx cypress run --env api_server=http://localhost:1337` to run all tests in headless mode against local build application.
 
-## Tech stack
+### Interactive mode
 
-- React, Redux, Redux-Saga, Redux-ORM, Semantic UI React, react-beautiful-dnd
-- Sails.js, Knex.js
-- PostgreSQL
+1. Run `npx cypress open --env api_server=http://localhost:3000` or `npx cypress --env api_server=http://localhost:1337` to open the Cypress App;
+2. Select E2E Testing;
+3. Select one of the available browsers (e.g., Electron), and click the Start button;
+4. Run any test.
 
-## License
+___
 
-Planka is [AGPL-3.0 licensed](https://github.com/plankanban/planka/blob/master/LICENSE).
-
-## Contributors
-
-[![](https://contrib.rocks/image?repo=plankanban/planka)](https://github.com/plankanban/planka/graphs/contributors)
+Developed with 💚 by [Guilherme](https://www.linkedin.com/in/guipastl).

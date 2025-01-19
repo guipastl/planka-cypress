@@ -3,6 +3,7 @@ const { defineConfig } = require("cypress")
 const cyPostgres = require('cypress-postgres-10v-compatibility')
 
 module.exports = defineConfig({
+  projectId: "v923ax",
   e2e: {
     setupNodeEvents(on, config) {
       on('task', {
