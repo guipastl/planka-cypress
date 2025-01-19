@@ -56,11 +56,11 @@ jobs:
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
-        with:
-          command: npx cypress run --env api_server=http://localhost:3000
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          command: npx cypress run --env api_server=http://localhost:3000
 
   planka-app-build-and-cypress-tests:
     needs: trigger-job
@@ -121,8 +121,8 @@ jobs:
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
-        with:
-          command: npx cypress run --env api_server=http://localhost:1337
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          command: npx cypress run --env api_server=http://localhost:1337
