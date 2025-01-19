@@ -58,7 +58,9 @@ jobs:
         uses: cypress-io/github-action@v6
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
+          record: true
           command: npx cypress run --env api_server=http://localhost:3000
 
   planka-build-and-test:
@@ -122,5 +124,7 @@ jobs:
         uses: cypress-io/github-action@v6
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
+          record: true
           command: npx cypress run --env api_server=http://localhost:1337
