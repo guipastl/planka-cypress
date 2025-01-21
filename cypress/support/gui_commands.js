@@ -59,3 +59,37 @@ Cypress.Commands.add('gui_deleteProject', project => {
   cy.get('button').last().click()
   cy.get('.negative').click()
 })
+
+Cypress.Commands.add('gui_createUser', user => {
+  cy.visit('/')
+  cy.get('.users').click()
+  cy.get('button.ui').click()
+  cy.get('input[name="email"]').type(user.email)
+  cy.get('input[name="password"]').type(user.password)
+  cy.get('input[name="name"]').type(user.name)
+  cy.get('input[name="username"]').type(user.userName)
+  cy.get('button.ui').last().click()
+})
+
+Cypress.Commands.add('gui_updatesUser', user => {
+  cy.api_createUser(user)
+  cy.visit('/')
+  cy.get('.users').click()
+  cy.get('.scrolling')
+    .should('contain.text', user.name)
+  cy.get('.right > .ui').click()
+  cy.get('a[class="item ActionsStep_menuItem__P12UT"]').eq(0).click()
+  cy.get('input[name="name"]').clear().type(user.anotherName)
+  cy.get('.form > .positive').click()
+})
+
+Cypress.Commands.add('gui_deleteUser', user => {
+  cy.api_createUser(user)
+  cy.visit('/')
+  cy.get('.users').click()
+  cy.get('.scrolling')
+    .should('contain.text', user.name)
+  cy.get('.right > .ui').click()
+  cy.get('a[class="item ActionsStep_menuItem__P12UT"]').eq(4).click()
+  cy.get('button[class="ui fluid negative button"]').click()
+})
