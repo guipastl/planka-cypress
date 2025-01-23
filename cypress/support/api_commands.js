@@ -90,3 +90,18 @@ Cypress.Commands.add('api_createUser', user => {
       })
     })
 })
+
+Cypress.Commands.add('api_createBoard', (projectId, board) => {
+  cy.getCookie('accessToken')
+    .then((cookie) => {
+      cy.request({
+        method: 'POST',
+        url: `${Cypress.env('api_server')}/api/projects/${projectId}/boards`,
+        body: {
+          name: `${board.name}`,
+          position: board.position
+        },
+        headers:  { Authorization: `Bearer ${cookie.value}` }
+      })
+  })
+})

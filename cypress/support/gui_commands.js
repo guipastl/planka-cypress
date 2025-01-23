@@ -93,3 +93,37 @@ Cypress.Commands.add('gui_deleteUser', user => {
   cy.get('a[class="item ActionsStep_menuItem__P12UT"]').eq(4).click()
   cy.get('button[class="ui fluid negative button"]').click()
 })
+
+Cypress.Commands.add('gui_createBoard', (project, board) => {
+  cy.api_createProject(project)
+    .then(resp => {
+      cy.visit('/')
+      cy.get('div[class^="four"]').should('have.length', 2)
+      cy.visit(`/projects/${resp.body.item.id}`)
+  })
+  cy.get('.plus').click()
+  cy.get('input').type(board.name)
+  cy.get('.positive').click()
+})
+
+Cypress.Commands.add('gui_updatesBoard', (project, board) => {
+  cy.api_createProject(project)
+    .then(resp => {
+      cy.api_createBoard(resp.body.item.id, board)
+      cy.visit(`/projects/${resp.body.item.id}`)
+  })
+  cy.contains(board.name).get('.pencil').last().click()
+  cy.get('input').clear().type(board.anotherName)
+  cy.get('.positive').click()
+})
+
+Cypress.Commands.add('gui_deletesBoard', (project, board) => {
+  cy.api_createProject(project)
+    .then(resp => {
+      cy.api_createBoard(resp.body.item.id, board)
+      cy.visit(`/projects/${resp.body.item.id}`)
+  })
+  cy.contains(board.name).get('.pencil').last().click()
+  cy.get('button[class^="ui"]').last().click()
+  cy.get('.content > .ui').click()
+})
